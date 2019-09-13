@@ -1,0 +1,225 @@
+.link-lookalike {
+    background: none;
+    border: none;
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.head {
+    font-size: larger;
+}
+
+.error {
+    font-size: 10pt;
+    color: red
+}
+
+.required {
+    color: red;
+}
+
+td.right {
+    text-align: right;
+}
+
+td.center {
+    text-align: center;
+}
+
+body {
+    margin: 0
+}
+
+div {
+    border: 1px dashed black;
+}
+
+.data {
+    border: 0 dashed black;
+    padding-left: 5px;
+    height: auto;
+}
+
+.books-header {
+    border: 0 dashed black;
+    font-style: normal;
+    font-size: x-large;
+    text-align: left;
+    float: top;
+}
+
+.subscriptions-header {
+    border: 0 dashed black;
+    font-style: normal;
+    font-size: x-large;
+    text-align: left;
+    float: top;
+}
+
+.authors-header {
+    border: 0 dashed black;
+    font-style: normal;
+    font-size: x-large;
+    text-align: left;
+    float: top;
+}
+
+.page-list {
+    border: 0 dashed black;
+    margin-top: 10px;
+    font-size: medium;
+    text-align: center;
+    float: top;
+}
+
+.book {
+    border: 0 dashed black;
+    float: top;
+}
+
+.author {
+    border: 0 dashed black;
+    float: top;
+}
+
+.book-title {
+    border: 0 dashed black;
+    font-size: medium;
+    float: top;
+}
+
+.author-title {
+    border: 0 dashed black;
+    font-size: medium;
+    float: top;
+}
+.book-authors {
+    border: 0 dashed black;
+    float: top;
+    padding-left: 10px;
+    height: 1.0em;
+}
+
+.book-author {
+    border: 0 dashed black;
+    font-size: small;
+    float: left;
+    padding-left: 10px;
+}
+
+.author-offset {
+    border: 0 dashed black;
+    height: 10px;
+    float: top;
+}
+
+.book-offset {
+    border: 0 dashed black;
+    height: 10px;
+    float: top;
+}
+
+.page {
+    margin: 0;
+    min-width: 800px;
+    border: 0 dashed black;
+}
+
+.context {
+    margin-left: auto;
+    margin-right: auto;
+    padding: 5px;
+    width: 80%;
+    min-width: 800px;
+}
+
+.header {
+    height: 80px;
+    //border: 0 px dashed black;
+    border-bottom-style: none;
+    background: azure;
+    text-align: center;
+    float: top;
+}
+
+.middle {
+    height: 100%;
+    //border: 0 px dashed black;
+    background: white;
+    float: top;
+}
+
+.footer {
+    height: 80px;
+    //border: 0 px dashed black;
+    background: white;
+    float: bottom;
+    display: none;
+}
+
+.header-logo {
+    width: 100px;
+    height: 80px;
+    //display: none;
+    float: left;
+}
+
+.header-user {
+    padding: 10px;
+    width: auto;
+    background: #fff;
+    text-align: right;
+    float: right;
+}
+
+.header-locale {
+    border: 0 dashed black;
+    margin-top: 0;
+    height: 20px;
+    position: relative;
+    float: right;
+    top: -20px;
+}
+
+.middle-menu {
+    background: azure;
+/ / border: 0 px dashed black;
+    width: 150px;
+    height: auto;
+    float: left;
+    text-align: left;
+    padding: 5px;
+/ / display: none;
+}
+
+.middle-context {
+    background: white;
+    border: 0 dashed black;
+/ / float: left;
+    margin-left: 165px;
+    width: calc(100% - 150 - 15);
+    height: auto;
+
+}
+
+.middle-context-menu-top {
+    background: azure;
+    float: top;
+    text-align: left;
+    padding: 5px;
+    height: auto;
+/ / display: none;
+}
+
+.middle-context-data {
+    background: white;
+    border: 0 dashed black;
+    margin-top: 0;
+    float: top;
+    width: calc(80% - 150 - 15);
+    height: auto;
+    text-align: left;
+/ / padding-left: 5 px;
+/ / display: none;
+}
