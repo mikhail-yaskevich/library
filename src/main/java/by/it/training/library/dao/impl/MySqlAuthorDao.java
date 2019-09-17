@@ -20,12 +20,12 @@ public class MySqlAuthorDao implements AuthorDao {
     private static final String SQL_authors_only =
             "SELECT authors.id, authors.firstname, authors.lastname, " +
                     "(SELECT GROUP_CONCAT(books_authors.book_id) FROM books_authors WHERE books_authors.author_id = authors.id) " +
-             "FROM authors WHERE authors.removed = 0;";
+            "FROM authors WHERE authors.removed = 0;";
 
     private static final String SQL_authors_for_books =
             "SELECT authors.id, authors.firstname, authors.lastname, " +
                     "(select group_concat(books_authors.book_id) from books_authors where books_authors.author_id = authors.id and books_authors.book_id in (?)) booksid " +
-             "FROM authors JOIN books_authors ON authors.id = books_authors.author_id WHERE removed = 0 AND books_authors.book_id IN (?);";
+            "FROM authors JOIN books_authors ON authors.id = books_authors.author_id WHERE removed = 0 AND books_authors.book_id IN (?);";
 
     @Override
     public Map<Integer, Author> getAuthors(List<Integer> booksId) throws DaoException {

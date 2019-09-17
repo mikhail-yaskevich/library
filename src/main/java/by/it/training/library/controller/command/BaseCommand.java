@@ -31,6 +31,5 @@ public abstract class BaseCommand implements Command {
         } catch (ServletException | IOException e) {
             throw new CommandException(e);
         }
-
     }
 }

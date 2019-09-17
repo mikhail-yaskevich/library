@@ -12,8 +12,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class MySqlBookDao implements BookDao {
 
@@ -28,10 +28,10 @@ public class MySqlBookDao implements BookDao {
     }
 
     private static final String SQL_last_read_books =
-            "SELECT books.id, books.title, " +
+            "SELECT DISTINCT books.id, books.title, " +
                     "(SELECT GROUP_CONCAT(books_authors.author_id) FROM books_authors WHERE books_authors.book_id = books.id) authorsid " +
             "FROM subscriptions LEFT JOIN books ON subscriptions.book_id = books.id " +
-            "WHERE subscriptions.starting IS NOT NULL AND subscriptions.stoping IS NULL " +
+            "WHERE subscriptions.starting IS NOT NULL AND subscriptions.stopping IS NULL " +
             "ORDER BY subscriptions.starting DESC LIMIT ";
 
     public List<Book> getLastReadBooks() throws DaoException {
@@ -52,6 +52,35 @@ public class MySqlBookDao implements BookDao {
 
     public List<Book> getBooks(int pageNumber, int pageCount) throws DaoException {
         return getBooksFrom(SQL_books + MySqlDao.formatLimit(pageNumber, pageCount));
+    }
+
+    private static final String SQL_books_for_books =
+            "SELECT books.id, books.title, " +
+                    "(SELECT GROUP_CONCAT(books_authors.author_id) FROM books_authors WHERE books_authors.book_id = books.id) authorsid " +
+            "FROM books " +
+            "WHERE books.id IN (%s)";
+
+    @Override
+    public Map<Integer, Book> getBooks(List<Integer> booksId) throws DaoException {
+        Map<Integer, Book> books = new HashMap<>();
+
+        ConnectionPool connectionPool = ConnectionPool.getInstance();
+
+        try (Connection connection = connectionPool.takeConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(
+                    String.format(SQL_books_for_books, booksId.stream().map(Object::toString).collect(Collectors.joining(","))))) {
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    while (resultSet.next()) {
+                        books.put(resultSet.getInt(1),
+                                new BookBean(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3)));
+                    }
+                }
+            }
+        } catch (SQLException | ConnectionPoolException e) {
+            throw new DaoException(e);
+        }
+
+        return books;
     }
 
     private List<Book> getBooksFrom(String sql) throws DaoException {

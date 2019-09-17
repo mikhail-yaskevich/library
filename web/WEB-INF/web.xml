@@ -15,13 +15,20 @@
     <servlet>
         <servlet-name>controller</servlet-name>
         <servlet-class>by.it.training.library.controller.Controller</servlet-class>
+        <init-param>
+            <param-name>upload</param-name>
+            <param-value>d:\.workspace\uploads</param-value>
+        </init-param>
+        <multipart-config>
+            <max-file-size>1073741824</max-file-size>
+        </multipart-config>
     </servlet>
 
     <servlet-mapping>
         <servlet-name>controller</servlet-name>
         <url-pattern>/main</url-pattern>
     </servlet-mapping>
-    
+
     <filter>
         <filter-name>encoding-filter</filter-name>
         <filter-class>by.it.training.library.controller.filter.EncodingFilter</filter-class>

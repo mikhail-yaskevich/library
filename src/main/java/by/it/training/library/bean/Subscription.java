@@ -1,6 +1,7 @@
 package by.it.training.library.bean;
 
 import java.sql.Timestamp;
+import java.util.Map;
 
 public interface Subscription {
     int getId();
@@ -11,4 +12,6 @@ public interface Subscription {
     Timestamp getReserved();
     String getComment();
     int getRating();
+    void setBook(Map<Integer, Book> books);
+    Book getBook();
 }

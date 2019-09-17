@@ -10,9 +10,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public final class MySqlDao {
+final class MySqlDao {
 
-    public static int getCount(String sql) throws DaoException {
+    static int getCount(String sql) throws DaoException {
         ConnectionPool connectionPool = ConnectionPool.getInstance();
 
         try (Connection connection = connectionPool.takeConnection()) {
@@ -30,7 +30,7 @@ public final class MySqlDao {
         return 0;
     }
 
-    public static String formatLimit(int pageNumber, int pageCount) {
+    static String formatLimit(int pageNumber, int pageCount) {
         return (((pageNumber > -1) && (pageCount > 0)) ?
                 String.format(" LIMIT %d, %d", pageNumber * PageConstant.MAX_COUNT_BOOKS_ON_PAGE, PageConstant.MAX_COUNT_BOOKS_ON_PAGE) : "");
     }

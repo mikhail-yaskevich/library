@@ -7,9 +7,15 @@ import by.it.training.library.controller.command.CommandProvider;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.jws.WebService;
+import javax.servlet.Filter;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.*;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -47,6 +53,29 @@ public class Controller extends HttpServlet {
                     req.setAttribute("locale", cookie.getValue());
                     break;
                 }
+            }
+        }
+
+        // код для тестирования загрузки файлов
+        if ("upload".equals(req.getParameter("command"))) {
+            System.out.println("description " + req.getParameter("description"));
+            System.out.println("file " + req.getParameter("file"));
+            try {
+                Part part = req.getPart("file"); // Retrieves <input type="file" name="file">
+                System.out.println("getSubmittedFileName()" + part.getSubmittedFileName());
+                String fileName = Paths.get(part.getSubmittedFileName()).getFileName().toString(); // MSIE fix.
+
+                System.out.println("fileName " + fileName);
+                try (InputStream input = part.getInputStream()) {
+                    System.out.println("input " + input.available());
+                    String upload = getServletConfig().getInitParameter("upload");
+                    System.out.println("upload " + upload);
+                    File tempFile = File.createTempFile("xxx_", "_zzz", new File(upload));
+                    System.out.println("tempFile: " + tempFile);
+                    Files.copy(input, tempFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                }
+            } catch (IOException | ServletException e) {
+                e.printStackTrace();
             }
         }
 

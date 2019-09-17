@@ -1,13 +1,18 @@
 package by.it.training.library.controller.command.impl;
 
+import by.it.training.library.bean.Subscription;
+import by.it.training.library.bean.SubscriptionType;
+import by.it.training.library.bean.User;
 import by.it.training.library.bean.UserType;
 import by.it.training.library.controller.PageConstant;
 import by.it.training.library.controller.RequestParameterName;
 import by.it.training.library.controller.SessionAttributeName;
 import by.it.training.library.controller.command.BaseCommand;
 import by.it.training.library.controller.command.CommandException;
+import by.it.training.library.controller.command.SecureCommand;
 import by.it.training.library.service.ServiceException;
 import by.it.training.library.service.ServiceProvider;
+import by.it.training.library.service.SubscriptionService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,59 +20,52 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Objects;
 
-public class SubscriptionsCommand extends BaseCommand {
+public class SubscriptionsCommand extends SecureCommand {
     @Override
     public void doExecute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
-
-        HttpSession session = request.getSession(false);
-        if (Objects.isNull(session) ||
-                Objects.isNull(session.getAttribute(SessionAttributeName.USER)) ||
-                Objects.isNull(session.getAttribute(SessionAttributeName.USER_TYPE))) {
-            return;
-        }
-        String attribute = ((String) session.getAttribute(SessionAttributeName.USER_TYPE)).toUpperCase();
-        if (!UserType.READER.equals(UserType.valueOf(attribute))) {
-            return;
-        }
-
         if ("GET".equals(request.getMethod())) {
-            request.setAttribute(RequestParameterName.LAST_REQUEST, "/main?command=books");
+            request.setAttribute(RequestParameterName.LAST_REQUEST, "/main?command=subscriptions");
             request.setAttribute(RequestParameterName.PAGE, "/WEB-INF/jsp/reader/subscriptions.jsp");
 
+            SubscriptionService subscriptionService = ServiceProvider.getInstance().getSubscriptionService();
 
+            HttpSession session = request.getSession(false);
+            User user = (User)session.getAttribute(SessionAttributeName.USER);
 
-//            BookService bookService = ServiceProvider.getInstance().getBookService();
+            int pageNumber;
+            try {
+                pageNumber = Integer.parseInt(request.getParameter("page")) - 1;
+            } catch (NumberFormatException e) {
+                pageNumber = 0;
+            }
 
-//            int pageNumber;
-//            try {
-//                pageNumber = Integer.parseInt(request.getParameter("page")) - 1;
-//            } catch (NumberFormatException e) {
-//                pageNumber = 0;
-//            }
-//
-//            int pageCount;
-//            try {
-//                int booksCount = bookService.getBooksCount();
-//                pageCount = booksCount / PageConstant.MAX_COUNT_BOOKS_ON_PAGE + ((booksCount % PageConstant.MAX_COUNT_BOOKS_ON_PAGE > 0)? 1 : 0);
-//            } catch (ServiceException e) {
-//                throw new CommandException(e);
-//            }
-//
-//            pageNumber = (pageNumber >= pageCount) ? pageCount : ((pageNumber < 0) ? 0 : pageNumber);
-//
-//            List<Book> books;
-//            try {
-//                books = bookService.getBooks(pageNumber, pageCount);
-//            } catch (ServiceException e) {
-//                throw new CommandException(e);
-//            }
+            int pageCount;
+            try {
+                int subscriptionsCount = subscriptionService.getSubscriptionsCount(user.getId(), SubscriptionType.ALL);
+                pageCount = subscriptionsCount / PageConstant.MAX_COUNT_BOOKS_ON_PAGE + ((subscriptionsCount % PageConstant.MAX_COUNT_BOOKS_ON_PAGE > 0)? 1 : 0);
+            } catch (ServiceException e) {
+                throw new CommandException(e);
+            }
 
-//            request.setAttribute("subscriptions", books);
-//            request.setAttribute("pageCount", pageCount);
-//            request.setAttribute("pageNumber", pageNumber + 1);
-//            request.setAttribute("pageCommand", "subscriptions");
-//            request.setAttribute(RequestParameterName.LAST_REQUEST, "/main?command=subscriptions&page=" + (pageNumber + 1));
+            pageNumber = (pageNumber >= pageCount) ? pageCount : ((pageNumber < 0) ? 0 : pageNumber);
+
+            List<Subscription> subscriptions;
+            try {
+                subscriptions = subscriptionService.getSubscriptions(user.getId(), SubscriptionType.ALL, pageNumber, pageCount);
+            } catch (ServiceException e) {
+                throw new CommandException(e);
+            }
+
+            request.setAttribute("subscriptions", subscriptions);
+            request.setAttribute("pageCount", pageCount);
+            request.setAttribute("pageNumber", pageNumber + 1);
+            request.setAttribute("pageCommand", "subscriptions");
+            request.setAttribute(RequestParameterName.LAST_REQUEST, "/main?command=subscriptions&page=" + (pageNumber + 1));
         }
+    }
 
+    @Override
+    public UserType getUserType() {
+        return UserType.READER;
     }
 }

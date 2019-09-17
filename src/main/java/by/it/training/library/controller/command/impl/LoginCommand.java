@@ -9,8 +9,10 @@ import by.it.training.library.service.ServiceException;
 import by.it.training.library.service.ServiceProvider;
 import by.it.training.library.service.UserService;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.ResourceBundle;
@@ -42,6 +44,20 @@ public class LoginCommand extends BaseCommand {
             } catch (ServiceException e) {
                 throw new CommandException(e);
             }
+        }
+    }
+
+    @Override
+    public void doAfterExecute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
+        User user = (User) request.getSession().getAttribute(SessionAttributeName.USER);
+        if (Objects.nonNull(user)) {
+            try {
+                response.sendRedirect(request.getContextPath() + "/main");
+            } catch (IOException e) {
+                throw new CommandException(e);
+            }
+        } else {
+            super.doAfterExecute(request, response);
         }
     }
 }

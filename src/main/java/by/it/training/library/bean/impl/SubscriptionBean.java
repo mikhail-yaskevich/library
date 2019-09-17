@@ -4,6 +4,7 @@ import by.it.training.library.bean.Book;
 import by.it.training.library.bean.Subscription;
 
 import java.sql.Timestamp;
+import java.util.Map;
 
 public class SubscriptionBean implements Subscription {
 
@@ -48,8 +49,8 @@ public class SubscriptionBean implements Subscription {
         return book;
     }
 
-    public void setBook(Book book) {
-        this.book = book;
+    public void setBook(Map<Integer, Book> books) {
+        this.book = books.get(bookId);
     }
 
     public void setBookId(int bookId) {

@@ -2,6 +2,7 @@ package by.it.training.library.service;
 
 import by.it.training.library.service.impl.AuthorServiceImpl;
 import by.it.training.library.service.impl.BookServiceImpl;
+import by.it.training.library.service.impl.SubscriptionServiceImpl;
 import by.it.training.library.service.impl.UserServiceImpl;
 
 public final class ServiceProvider {
@@ -33,4 +34,9 @@ public final class ServiceProvider {
         return authorService;
     }
 
+    private SubscriptionService subscriptionService = new SubscriptionServiceImpl();
+
+    public SubscriptionService getSubscriptionService() {
+        return subscriptionService;
+    }
 }

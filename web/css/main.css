@@ -78,12 +78,23 @@ div {
     float: top;
 }
 
+.subscription {
+    border: 0 dashed black;
+    float: top;
+}
+
 .author {
     border: 0 dashed black;
     float: top;
 }
 
 .book-title {
+    border: 0 dashed black;
+    font-size: medium;
+    float: top;
+}
+
+.subscription-title {
     border: 0 dashed black;
     font-size: medium;
     float: top;
