@@ -30,4 +30,13 @@ public class AuthorServiceImpl implements AuthorService {
             throw new ServiceException(e);
         }
     }
+
+    @Override
+    public Author getAuthor(int authorId) throws ServiceException {
+        try {
+            return authorDao.getAuthor(authorId);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
 }

@@ -107,6 +107,10 @@ public class Controller extends HttpServlet {
             return commandProvider.getCommand(CommandName.ABOUT.name());
         } else if (CommandName.LOCALE.name().equalsIgnoreCase(commandName)) {
             return commandProvider.getCommand(CommandName.LOCALE.name());
+        } else if (CommandName.BOOK.name().equalsIgnoreCase(commandName)) {
+            return commandProvider.getCommand(CommandName.BOOK.name());
+        } else if (CommandName.AUTHOR.name().equalsIgnoreCase(commandName)) {
+            return commandProvider.getCommand(CommandName.AUTHOR.name());
         } else {
             return commandProvider.getCommand(CommandName.NO_SUCH_COMMAND.name());
         }

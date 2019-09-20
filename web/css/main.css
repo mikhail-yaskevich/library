@@ -49,6 +49,78 @@ div {
     float: top;
 }
 
+.book-header {
+    border: 0 dashed black;
+    font-style: normal;
+    font-size: large;
+    text-align: left;
+    padding-left: 20px;
+    float: top;
+}
+
+.author-header {
+    border: 0 dashed black;
+    font-style: normal;
+    font-size: large;
+    text-align: left;
+    padding-left: 20px;
+    float: top;
+}
+
+.book-header1 {
+border: 0 dashed black;
+    font-style: normal;
+    font-size: large;
+    font-weight: bold;
+    text-align: left;
+    float: top;
+}
+
+.author-header1 {
+    border: 0 dashed black;
+    font-style: normal;
+    font-size: large;
+    font-weight: bold;
+    text-align: left;
+    float: top;
+}
+
+.book-header2 {
+border: 0 dashed black;
+    font-style: normal;
+    font-size: medium;
+    font-weight: bold;
+    text-align: left;
+    float: top;
+}
+
+.author-header2 {
+    border: 0 dashed black;
+    font-style: normal;
+    font-size: medium;
+    font-weight: bold;
+    text-align: left;
+    float: top;
+}
+
+.book-header3 {
+border: 0 dashed black;
+    font-style: normal;
+    font-size: medium;
+    font-weight: bold;
+    text-align: left;
+    float: top;
+}
+
+.author-header3 {
+    border: 0 dashed black;
+    font-style: normal;
+    font-size: medium;
+    font-weight: bold;
+    text-align: left;
+    float: top;
+}
+
 .subscriptions-header {
     border: 0 dashed black;
     font-style: normal;
@@ -112,8 +184,48 @@ div {
     height: 1.0em;
 }
 
+.subscription-states {
+    border: 0 dashed black;
+    float: top;
+    padding-left: 10px;
+    height: 1.0em;
+}
+
 .book-author {
     border: 0 dashed black;
+    font-size: small;
+    float: left;
+    padding-left: 10px;
+}
+
+.book-author2 {
+    border: 0 dashed black;
+    font-size: medium;
+    float: top;
+    padding-left: 20px;
+    text-align: left;
+}
+
+
+.author-author2 {
+    border: 0 dashed black;
+    font-size: medium;
+    float: top;
+    padding-left: 20px;
+    text-align: left;
+}
+
+.book-author3 {
+//border: 0 dashed black;
+    font-size: medium;
+    float: top;
+    padding-left: 20px;
+    text-align: left;
+}
+
+.subscription-state {
+    border: 0 dashed black;
+    padding-top: 3px;
     font-size: small;
     float: left;
     padding-left: 10px;
@@ -128,6 +240,12 @@ div {
 .book-offset {
     border: 0 dashed black;
     height: 10px;
+    float: top;
+}
+
+.subscription-offset {
+    border: 0 dashed black;
+    height: 20px;
     float: top;
 }
 
@@ -170,10 +288,66 @@ div {
 }
 
 .header-logo {
-    width: 100px;
+    width: 80px;
     height: 80px;
     //display: none;
     float: left;
+}
+
+.book-img {
+    width: 128px;
+    height: 128px;
+    //padding: 10px;
+    padding: 10px 20px 30px 25px;
+//display: none;
+    //float: top;
+}
+
+.author-img {
+    width: 128px;
+    height: 128px;
+//padding: 10px;
+    padding: 10px 20px 30px 25px;
+//display: none;
+//float: top;
+}
+
+.book-img2 {
+    border: 0 dashed black;
+    width: 170px;
+    //height: 276px;
+    padding: 5px;
+//display: none;
+    float: left;
+}
+
+.author-img2 {
+    border: 0 dashed black;
+    width: 170px;
+//height: 276px;
+    padding: 5px;
+//display: none;
+    float: left;
+}
+
+.book-data {
+    border: 0 dashed black;
+    padding: 10px;
+//display: none;
+    float: left;
+}
+
+.author-data {
+    border: 0 dashed black;
+    padding: 10px;
+//display: none;
+    float: left;
+}
+
+.book-command {
+    //padding: 10px;
+//display: none;
+    //float: top;
 }
 
 .header-user {
@@ -191,6 +365,20 @@ div {
     position: relative;
     float: right;
     top: -20px;
+}
+
+.subscription-command {
+    //padding-left: 10px;
+    border: 0 dashed black;
+    height: 20px;
+    float: left;
+}
+
+.subscription-command-offset {
+    padding-left: 20px;
+    border: 0 dashed black;
+    height: 20px;
+    float: left;
 }
 
 .middle-menu {

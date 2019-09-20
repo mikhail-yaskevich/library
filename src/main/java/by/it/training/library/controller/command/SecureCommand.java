@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.Objects;
+import java.util.Set;
 
 public abstract class SecureCommand extends BaseCommand {
     @Override
@@ -19,7 +20,7 @@ public abstract class SecureCommand extends BaseCommand {
                 return;
             }
             String attribute = ((String) session.getAttribute(SessionAttributeName.USER_TYPE)).toUpperCase();
-            if (!getUserType().equals(UserType.valueOf(attribute))) {
+            if (!getUserType().contains(UserType.valueOf(attribute))) {
                 return;
             }
             doBeforeExecute(request, response);
@@ -27,7 +28,8 @@ public abstract class SecureCommand extends BaseCommand {
         } finally {
             doAfterExecute(request, response);
         }
+
     }
 
-    public abstract UserType getUserType();
+    public abstract Set<UserType> getUserType();
 }

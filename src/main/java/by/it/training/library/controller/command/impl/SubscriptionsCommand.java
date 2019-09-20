@@ -17,8 +17,10 @@ import by.it.training.library.service.SubscriptionService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 public class SubscriptionsCommand extends SecureCommand {
     @Override
@@ -65,7 +67,7 @@ public class SubscriptionsCommand extends SecureCommand {
     }
 
     @Override
-    public UserType getUserType() {
-        return UserType.READER;
+    public Set<UserType> getUserType() {
+        return EnumSet.of(UserType.READER);
     }
 }

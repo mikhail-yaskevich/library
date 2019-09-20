@@ -7,12 +7,12 @@
     <c:forEach items="${requestScope.books}" var="book">
         <div class="book">
             <div class="book-title">
-                <a href="main?book=${book.id}"><c:out value="${book.title}"/><br></a>
+                <a href="main?command=book&book=${book.id}"><c:out value="${book.title}"/><br></a>
             </div>
             <div class="book-authors">
                 <c:forEach items="${book.authors}" var="author">
                     <div class="book-author">
-                        <a href="main?author=${author.id}"><c:out value="${author.firstname}"/> <c:out value="${author.lastname}"/></a>
+                        <a href="main?command=author&author=${author.id}"><c:out value="${author.firstname}"/> <c:out value="${author.lastname}"/></a>
                     </div>
                 </c:forEach>
             </div>

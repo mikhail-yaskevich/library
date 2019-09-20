@@ -12,4 +12,6 @@ public interface SubscriptionDao {
     int addSubscription(Subscription subscription) throws DaoException;
     void updateSubscription(Subscription subscription) throws DaoException;
     void deleteSubscription(Subscription subscription) throws DaoException;
+
+    Subscription getSubscriptionForBook(int userId, int bookId) throws DaoException;
 }

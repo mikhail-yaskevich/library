@@ -13,5 +13,5 @@ public interface AuthorDao {
     Map<Integer, Author> getAuthors(List<Integer> booksId) throws DaoException;
     int getAuthorsCount() throws DaoException;
     List<Author> getAuthors(int pageNumber, int pageCount) throws DaoException;
-
+    Author getAuthor(int authorId) throws DaoException;
 }

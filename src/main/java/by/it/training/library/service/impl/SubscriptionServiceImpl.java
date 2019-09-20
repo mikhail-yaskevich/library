@@ -72,6 +72,15 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         }
     }
 
+    @Override
+    public Subscription getSubscriptionForBook(int userId, int bookId) throws ServiceException {
+        try {
+            return subscriptionDao.getSubscriptionForBook(userId, bookId);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
     private List<Subscription> setLinksToBooks(List<Subscription> subscriptions) throws ServiceException {
         List<Integer> booksId = new ArrayList<>();
         for (Subscription subscription : subscriptions) {

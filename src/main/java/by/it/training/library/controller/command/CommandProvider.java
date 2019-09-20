@@ -1,7 +1,6 @@
 package by.it.training.library.controller.command;
 
 import by.it.training.library.controller.command.impl.*;
-import by.it.training.library.controller.command.impl.AboutCommand;
 
 import java.util.EnumMap;
 import java.util.Map;
@@ -27,6 +26,12 @@ public final class CommandProvider {
         commands.put(CommandName.LOGOUT, new LogoutCommand());
         commands.put(CommandName.LOCALE, new LocaleCommand());
         commands.put(CommandName.SUBSCRIPTIONS, new SubscriptionsCommand());
+        commands.put(CommandName.TAKE, new TakeBookCommand());
+        commands.put(CommandName.BRING, new BringBookCommand());
+        commands.put(CommandName.CANCEL, new CancelReservedBookCommand());
+        commands.put(CommandName.BOOK, new BookCommand());
+        commands.put(CommandName.RESERVE, new ReserveBookCommand());
+        commands.put(CommandName.AUTHOR, new AuthorCommand());
     }
 
     public Command getCommand(String commandName) {

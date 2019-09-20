@@ -12,4 +12,6 @@ public interface SubscriptionService {
     int addSubscription(Subscription subscription) throws ServiceException;
     void updateSubscription(Subscription subscription) throws ServiceException;
     void deleteSubscription(Subscription subscription) throws ServiceException;
+
+    Subscription getSubscriptionForBook(int userId, int bookId) throws ServiceException;
 }

@@ -19,12 +19,12 @@ public class MySqlAuthorDao implements AuthorDao {
 
     private static final String SQL_authors_only =
             "SELECT authors.id, authors.firstname, authors.lastname, " +
-                    "(SELECT GROUP_CONCAT(books_authors.book_id) FROM books_authors WHERE books_authors.author_id = authors.id) " +
+                    "(SELECT GROUP_CONCAT(books_authors.book_id) FROM books_authors WHERE books_authors.author_id = authors.id), authors.born, authors.dead " +
             "FROM authors WHERE authors.removed = 0;";
 
     private static final String SQL_authors_for_books =
             "SELECT authors.id, authors.firstname, authors.lastname, " +
-                    "(select group_concat(books_authors.book_id) from books_authors where books_authors.author_id = authors.id and books_authors.book_id in (?)) booksid " +
+                    "(select group_concat(books_authors.book_id) from books_authors where books_authors.author_id = authors.id and books_authors.book_id in (?)) booksid, authors.born, authors.dead " +
             "FROM authors JOIN books_authors ON authors.id = books_authors.author_id WHERE removed = 0 AND books_authors.book_id IN (?);";
 
     @Override
@@ -45,7 +45,7 @@ public class MySqlAuthorDao implements AuthorDao {
                     while (resultSet.next()) {
                         authors.put(resultSet.getInt(1),
                         new AuthorBean(resultSet.getInt(1), resultSet.getString(2),
-                                resultSet.getString(3), resultSet.getString(4)));
+                                resultSet.getString(3), resultSet.getString(4), resultSet.getTimestamp(5), resultSet.getTimestamp(6)));
                     }
                 }
             }
@@ -65,7 +65,7 @@ public class MySqlAuthorDao implements AuthorDao {
 
     private static final String SQL_authors =
             "SELECT authors.id, authors.firstname, authors.lastname, " +
-                    "(SELECT GROUP_CONCAT(books_authors.book_id) FROM books_authors WHERE books_authors.author_id = authors.id) " +
+                    "(SELECT GROUP_CONCAT(books_authors.book_id) FROM books_authors WHERE books_authors.author_id = authors.id), authors.born, authors.dead " +
                     "FROM authors WHERE authors.removed = 0 ORDER BY authors.lastname, authors.firstname";
 
     @Override
@@ -79,7 +79,7 @@ public class MySqlAuthorDao implements AuthorDao {
                 try (ResultSet resultSet = statement.executeQuery()) {
                     while (resultSet.next()) {
                         authors.add(new AuthorBean(resultSet.getInt(1), resultSet.getString(2),
-                                resultSet.getString(3), resultSet.getString(4)));
+                                resultSet.getString(3), resultSet.getString(4), resultSet.getTimestamp(5), resultSet.getTimestamp(6)));
                     }
                 }
             }
@@ -88,5 +88,30 @@ public class MySqlAuthorDao implements AuthorDao {
         }
 
         return authors;
+    }
+
+    private static final String SQL_author =
+            "SELECT authors.id, authors.firstname, authors.lastname, " +
+                    "(SELECT GROUP_CONCAT(books_authors.book_id) FROM books_authors WHERE books_authors.author_id = authors.id), authors.born, authors.dead " +
+            "FROM authors WHERE authors.removed = 0 AND authors.id = ?";
+
+    @Override
+    public Author getAuthor(int authorId) throws DaoException {
+        ConnectionPool connectionPool = ConnectionPool.getInstance();
+
+        try (Connection connection = connectionPool.takeConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(SQL_author)) {
+                statement.setInt(1, authorId);
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    if (resultSet.next()) {
+                        return new AuthorBean(resultSet.getInt(1), resultSet.getString(2),
+                                resultSet.getString(3), resultSet.getString(4), resultSet.getTimestamp(5), resultSet.getTimestamp(6));
+                    }
+                }
+            }
+        } catch (SQLException | ConnectionPoolException e) {
+            throw new DaoException(e);
+        }
+        return null;
     }
 }

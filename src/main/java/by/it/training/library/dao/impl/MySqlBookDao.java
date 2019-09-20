@@ -66,6 +66,7 @@ public class MySqlBookDao implements BookDao {
 
         ConnectionPool connectionPool = ConnectionPool.getInstance();
 
+        //если booksId пусто, то...
         try (Connection connection = connectionPool.takeConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(
                     String.format(SQL_books_for_books, booksId.stream().map(Object::toString).collect(Collectors.joining(","))))) {
@@ -73,6 +74,35 @@ public class MySqlBookDao implements BookDao {
                     while (resultSet.next()) {
                         books.put(resultSet.getInt(1),
                                 new BookBean(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3)));
+                    }
+                }
+            }
+        } catch (SQLException | ConnectionPoolException e) {
+            throw new DaoException(e);
+        }
+
+        return books;
+    }
+
+    private static final String SQL_author_books =
+            "SELECT books.id, books.title, " +
+                    "(SELECT GROUP_CONCAT(books_authors.author_id) FROM books_authors WHERE books_authors.book_id = books.id ) authorsid " +
+            "FROM books JOIN books_authors ON books.id = books_authors.book_id " +
+            "WHERE books_authors.author_id = ? " +
+            "ORDER BY books.title ASC";
+
+    @Override
+    public List<Book> getBooks(int authorId) throws DaoException {
+        List<Book> books = new ArrayList<>();
+
+        ConnectionPool connectionPool = ConnectionPool.getInstance();
+
+        try (Connection connection = connectionPool.takeConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(SQL_author_books)) {
+                statement.setInt(1, authorId);
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    while (resultSet.next()) {
+                        books.add(new BookBean(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3)));
                     }
                 }
             }

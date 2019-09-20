@@ -8,8 +8,11 @@ public interface Subscription {
     int getUserId();
     int getBookId();
     Timestamp getStarting();
+    void setStarting(Timestamp starting);
     Timestamp getStopping();
+    void setStopping(Timestamp starting);
     Timestamp getReserved();
+    void setReserved(Timestamp reserved);
     String getComment();
     int getRating();
     void setBook(Map<Integer, Book> books);

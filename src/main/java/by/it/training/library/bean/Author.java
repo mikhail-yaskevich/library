@@ -11,5 +11,6 @@ public interface Author {
     Timestamp getDead();
     String getReview();
     List<Book> getBooks();
+    void setBooks(List<Book> books);
     List<Integer> getBooksId();
 }

@@ -3,19 +3,21 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <fmt:setLocale value="${locale}"/>
 <fmt:setBundle basename="language.title"/>
-<div class="header-logo"></div>
+<%--<div class="header-logo">--%>
+<a href="main"><img class="header-logo" src="img/logo.ico"/></a>
+<%--</div>--%>
 <div class="header-user">
     <c:if test="${not empty user }">
         <b>
             <c:if test="${empty user.getFirstName() or empty user.getLastName()}">
-                <!--a href="${user.getEmail()}"></a-->
+                <!--a href="mailto:${user.getEmail()}"></a-->
                 <c:out value="${user.getLogin()}"/>
             </c:if>
             <c:if test="${not empty user.getFirstName() and not empty user.getLastName()}">
-                <!--a href="${user.getEmail()}"></a-->
-                <c:out value="${user.getFirstName()}"/>
-                <c:out value=" "/>
-                <c:out value="${user.getLastName()}"/>
+                <!--a href="mailto:${user.getEmail()}"></a-->
+                    <c:out value="${user.getFirstName()}"/>
+                    <c:out value=" "/>
+                    <c:out value="${user.getLastName()}"/>
             </c:if>
         </b>
         <a href="main?command=logout"><fmt:message key="main.logout"/></a>

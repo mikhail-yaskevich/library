@@ -10,5 +10,7 @@ public interface BookService {
     List<Book> getLastReadBooks() throws ServiceException;
     int getBooksCount() throws ServiceException;
     List<Book> getBooks(int pageNumber, int pageCount) throws ServiceException;
+    Book getBook(int id) throws ServiceException;
+    List<Book> getBooks(int authorId) throws ServiceException;
     //List<Book> findBooks(String[] words) throws ServiceException;
 }

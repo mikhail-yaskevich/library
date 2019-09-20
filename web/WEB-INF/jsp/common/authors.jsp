@@ -7,7 +7,7 @@
     <c:forEach items="${requestScope.authors}" var="author">
         <div class="author">
             <div class="author-title">
-                <a href="main?author=${author.id}"><c:out value="${author.lastname}"/> <c:out value="${author.firstname}"/> <br></a>
+                <a href="main?command=author&author=${author.id}"><c:out value="${author.lastname}"/> <c:out value="${author.firstname}"/> <br></a>
             </div>
             <div class="author-offset"></div>
         </div>

@@ -15,8 +15,11 @@ public class AuthorBean implements Author {
     private String firstname;
     private String lastname;
     private List<Integer> booksId = new ArrayList<>();
+    private List<Book> books;
+    private Timestamp born;
+    private Timestamp dead;
 
-    public AuthorBean(int id, String firstname, String lastname, String booksId) {
+    public AuthorBean(int id, String firstname, String lastname, String booksId, Timestamp born, Timestamp dead) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
@@ -24,6 +27,8 @@ public class AuthorBean implements Author {
             this.booksId.addAll(
                     Arrays.asList(booksId.split(",")).stream().map(Integer::parseInt).collect(Collectors.toList()));
         }
+        this.born = born;
+        this.dead = dead;
     }
 
     @Override
@@ -43,12 +48,12 @@ public class AuthorBean implements Author {
 
     @Override
     public Timestamp getBorn() {
-        return null;
+        return born;
     }
 
     @Override
     public Timestamp getDead() {
-        return null;
+        return dead;
     }
 
     @Override
@@ -58,7 +63,12 @@ public class AuthorBean implements Author {
 
     @Override
     public List<Book> getBooks() {
-        return null;
+        return books;
+    }
+
+    @Override
+    public void setBooks(List<Book> books) {
+        this.books = books;
     }
 
     @Override
