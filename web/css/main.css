@@ -6,6 +6,11 @@
     cursor: pointer;
 }
 
+.without-underline{
+    text-decoration: none;
+    color: black;
+}
+
 .head {
     font-size: larger;
 }
@@ -122,6 +127,14 @@ border: 0 dashed black;
 }
 
 .subscriptions-header {
+    border: 0 dashed black;
+    font-style: normal;
+    font-size: x-large;
+    text-align: left;
+    float: top;
+}
+
+.users-header {
     border: 0 dashed black;
     font-style: normal;
     font-size: x-large;

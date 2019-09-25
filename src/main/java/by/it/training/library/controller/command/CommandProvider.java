@@ -32,6 +32,7 @@ public final class CommandProvider {
         commands.put(CommandName.BOOK, new BookCommand());
         commands.put(CommandName.RESERVE, new ReserveBookCommand());
         commands.put(CommandName.AUTHOR, new AuthorCommand());
+        commands.put(CommandName.READERS, new ReadersCommand());
     }
 
     public Command getCommand(String commandName) {

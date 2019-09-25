@@ -10,14 +10,16 @@
     <c:if test="${not empty user }">
         <b>
             <c:if test="${empty user.getFirstName() or empty user.getLastName()}">
-                <!--a href="mailto:${user.getEmail()}"></a-->
-                <c:out value="${user.getLogin()}"/>
+                <a class="without-underline" href="mailto:${user.getEmail()}">
+                    <c:out value="${user.getLogin()}"/>
+                </a>
             </c:if>
             <c:if test="${not empty user.getFirstName() and not empty user.getLastName()}">
-                <!--a href="mailto:${user.getEmail()}"></a-->
+                <a class="without-underline" href="mailto:${user.getEmail()}">
                     <c:out value="${user.getFirstName()}"/>
                     <c:out value=" "/>
                     <c:out value="${user.getLastName()}"/>
+                </a>
             </c:if>
         </b>
         <a href="main?command=logout"><fmt:message key="main.logout"/></a>

@@ -32,7 +32,7 @@ public class AuthorsCommand extends BaseCommand {
             int pageCount;
             try {
                 int booksCount = authorService.getAuthorsCount();
-                pageCount = booksCount / PageConstant.MAX_COUNT_BOOKS_ON_PAGE + ((booksCount % PageConstant.MAX_COUNT_BOOKS_ON_PAGE > 0) ? 1 : 0);
+                pageCount = booksCount / PageConstant.MAX_COUNT_OBJECTS_ON_PAGE + ((booksCount % PageConstant.MAX_COUNT_OBJECTS_ON_PAGE > 0) ? 1 : 0);
             } catch (ServiceException e) {
                 throw new CommandException(e);
             }

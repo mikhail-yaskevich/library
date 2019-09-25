@@ -32,6 +32,6 @@ final class MySqlDao {
 
     static String formatLimit(int pageNumber, int pageCount) {
         return (((pageNumber > -1) && (pageCount > 0)) ?
-                String.format(" LIMIT %d, %d", pageNumber * PageConstant.MAX_COUNT_BOOKS_ON_PAGE, PageConstant.MAX_COUNT_BOOKS_ON_PAGE) : "");
+                String.format(" LIMIT %d, %d", pageNumber * PageConstant.MAX_COUNT_OBJECTS_ON_PAGE, PageConstant.MAX_COUNT_OBJECTS_ON_PAGE) : "");
     }
 }

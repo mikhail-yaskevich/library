@@ -22,7 +22,7 @@ import java.util.Set;
 
 public class CancelReservedBookCommand extends SecureCommand {
     @Override
-    public Set<UserType> getUserType() {
+    public Set<UserType> getAvailableUserType() {
         return EnumSet.of(UserType.READER);
     }
 

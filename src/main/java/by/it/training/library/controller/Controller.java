@@ -4,10 +4,10 @@ import by.it.training.library.controller.command.Command;
 import by.it.training.library.controller.command.CommandException;
 import by.it.training.library.controller.command.CommandName;
 import by.it.training.library.controller.command.CommandProvider;
+import by.it.training.library.dao.connection.ConnectionPool;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.jws.WebService;
 import javax.servlet.Filter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -28,6 +28,11 @@ public class Controller extends HttpServlet {
     private static final CommandProvider commandProvider = CommandProvider.getInstance();
 
     public Controller() {
+    }
+
+    @Override
+    public void destroy() {
+        ConnectionPool.getInstance().dispose();
     }
 
     @Override

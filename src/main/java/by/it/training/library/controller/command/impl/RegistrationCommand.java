@@ -23,6 +23,23 @@ import java.util.ResourceBundle;
 public class RegistrationCommand extends BaseCommand {
 
     @Override
+    public void doAfterExecute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
+        try {
+            Object attribute = request.getAttribute("registrationPage");
+            if (Objects.isNull(attribute)) {
+                attribute = request.getAttribute("loginPage");
+            }
+            if (Objects.isNull(attribute)) {
+                response.sendRedirect(request.getContextPath() + "/main");
+            } else {
+                super.doAfterExecute(request, response);
+            }
+        } catch (IOException e) {
+            throw new CommandException(e);
+        }
+    }
+
+    @Override
     public void doExecute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         if ("GET".equals(request.getMethod())) {
             request.setAttribute(RequestParameterName.LAST_REQUEST, "/main?command=registration");
@@ -59,6 +76,16 @@ public class RegistrationCommand extends BaseCommand {
                 try {
                     if (userService.registrationCheck(userParams)) {
                         userService.registration(userParams);
+
+                        User user = userService.authorization(userParams.getLogin(), userParams.getPassword());
+                        if (Objects.isNull(user)) {
+                            request.setAttribute("loginPage", "true");
+                            request.setAttribute("loginError", bundle.getString("registration.error4"));
+                        } else {
+                            request.getSession().setAttribute(SessionAttributeName.USER, user);
+                            request.getSession().setAttribute(SessionAttributeName.USER_TYPE, user.getUserType().name());
+                            return;
+                        }
                     } else {
                         request.setAttribute("registrationPage", "true");
                         request.setAttribute("registrationError", bundle.getString("registration.error3"));
@@ -66,18 +93,6 @@ public class RegistrationCommand extends BaseCommand {
                         request.setAttribute("oldEmail", email);
                         request.setAttribute("oldFirstname", firstname);
                         request.setAttribute("oldLastname", lastname);
-                    }
-                } catch (ServiceException e) {
-                    throw new CommandException(e);
-                }
-
-                try {
-                    User user = userService.authorization(userParams.getLogin(), userParams.getPassword());
-                    if (Objects.nonNull(user)) {
-                        request.getSession().setAttribute(SessionAttributeName.USER, user);
-                    } else {
-                        request.setAttribute("loginPage", "true");
-                        request.setAttribute("loginError", bundle.getString("registration.error4"));
                     }
                 } catch (ServiceException e) {
                     throw new CommandException(e);

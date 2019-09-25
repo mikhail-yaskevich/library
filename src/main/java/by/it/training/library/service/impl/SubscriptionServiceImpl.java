@@ -89,7 +89,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         BookDao bookDao = DaoProvider.getInstance().getBookDao();
         try {
 
-            Map<Integer, Book> books = bookDao.getBooks(booksId);
+            Map<Integer, Book> books = bookDao.getBooks(booksId);//???
             for (Subscription subscription : subscriptions) {
                 subscription.setBook(books);
             }

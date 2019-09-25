@@ -35,7 +35,7 @@ public class MySqlBookDao implements BookDao {
             "ORDER BY subscriptions.starting DESC LIMIT ";
 
     public List<Book> getLastReadBooks() throws DaoException {
-        return getBooksFrom(SQL_last_read_books + PageConstant.MAX_COUNT_BOOKS_ON_PAGE);
+        return getBooksFrom(SQL_last_read_books + PageConstant.MAX_COUNT_OBJECTS_ON_PAGE);
     }
 
     private static final String SQL_books_count = "SELECT count(books.id) FROM books";
@@ -64,21 +64,22 @@ public class MySqlBookDao implements BookDao {
     public Map<Integer, Book> getBooks(List<Integer> booksId) throws DaoException {
         Map<Integer, Book> books = new HashMap<>();
 
-        ConnectionPool connectionPool = ConnectionPool.getInstance();
+        if (!booksId.isEmpty()) {
+            ConnectionPool connectionPool = ConnectionPool.getInstance();
 
-        //если booksId пусто, то...
-        try (Connection connection = connectionPool.takeConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement(
-                    String.format(SQL_books_for_books, booksId.stream().map(Object::toString).collect(Collectors.joining(","))))) {
-                try (ResultSet resultSet = statement.executeQuery()) {
-                    while (resultSet.next()) {
-                        books.put(resultSet.getInt(1),
-                                new BookBean(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3)));
+            try (Connection connection = connectionPool.takeConnection()) {
+                try (PreparedStatement statement = connection.prepareStatement(
+                        String.format(SQL_books_for_books, booksId.stream().map(Object::toString).collect(Collectors.joining(","))))) {
+                    try (ResultSet resultSet = statement.executeQuery()) {
+                        while (resultSet.next()) {
+                            books.put(resultSet.getInt(1),
+                                    new BookBean(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3)));
+                        }
                     }
                 }
+            } catch (SQLException | ConnectionPoolException e) {
+                throw new DaoException(e);
             }
-        } catch (SQLException | ConnectionPoolException e) {
-            throw new DaoException(e);
         }
 
         return books;

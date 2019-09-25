@@ -7,6 +7,8 @@ import by.it.training.library.dao.UserDao;
 import by.it.training.library.service.ServiceException;
 import by.it.training.library.service.UserService;
 
+import java.util.List;
+
 public class UserServiceImpl implements UserService {
 
     private UserDao userDao = DaoProvider.getInstance().getUserDAO();
@@ -18,6 +20,24 @@ public class UserServiceImpl implements UserService {
 
         try {
             return userDao.authorization(login, password);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public int getUsersCount() throws ServiceException {
+        try {
+            return userDao.getUsersCount();
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public List<User> getUsers(int pageNumber, int pageCount) throws ServiceException {
+        try {
+            return userDao.getUsers(pageNumber, pageCount);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }

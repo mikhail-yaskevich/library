@@ -20,7 +20,7 @@ public abstract class SecureCommand extends BaseCommand {
                 return;
             }
             String attribute = ((String) session.getAttribute(SessionAttributeName.USER_TYPE)).toUpperCase();
-            if (!getUserType().contains(UserType.valueOf(attribute))) {
+            if (!getAvailableUserType().contains(UserType.valueOf(attribute))) {
                 return;
             }
             doBeforeExecute(request, response);
@@ -31,5 +31,5 @@ public abstract class SecureCommand extends BaseCommand {
 
     }
 
-    public abstract Set<UserType> getUserType();
+    public abstract Set<UserType> getAvailableUserType();
 }

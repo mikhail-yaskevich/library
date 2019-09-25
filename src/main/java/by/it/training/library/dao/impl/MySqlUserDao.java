@@ -13,7 +13,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.List;
 
 
 public class MySqlUserDao implements UserDao {
@@ -22,15 +24,15 @@ public class MySqlUserDao implements UserDao {
             "SELECT users.id, users.firstname, users.lastname, users.removed, users.beginning, users.ending, " +
                     "roles.addbook, roles.editbook, roles.readbook, roles.reservebook, roles.takebook, roles.removebook, " +
                     "roles.adduser, roles.edituser, roles.removeuser, users.login, users.email, roles.name " +
-            "FROM users left join roles on users.role_id = roles.id " +
-            "WHERE login = ? AND password = SHA2(?, 256) AND removed = 0";
+                    "FROM users left join roles on users.role_id = roles.id " +
+                    "WHERE login = ? AND password = SHA2(?, 256) AND removed = 0";
 
     @Override
     public User authorization(String login, String password) throws DaoException {
         ConnectionPool connectionPool = ConnectionPool.getInstance();
 
         try (Connection connection = connectionPool.takeConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_authorization)){
+             PreparedStatement statement = connection.prepareStatement(SQL_authorization)) {
             statement.setString(1, login);
             statement.setString(2, password);
             try (ResultSet resultSet = statement.executeQuery()) {
@@ -66,6 +68,54 @@ public class MySqlUserDao implements UserDao {
         } catch (SQLException | ConnectionPoolException e) {
             throw new DaoException(e);
         }
+    }
+
+    private static final String SQL_users_count = "SELECT count(users.id) FROM users";
+
+    @Override
+    public int getUsersCount() throws DaoException {
+        return MySqlDao.getCount(SQL_users_count);
+    }
+
+    private static final String SQL_users =
+            "SELECT users.id, users.firstname, users.lastname, users.removed, users.beginning, users.ending, " +
+                    "users.login, users.email, roles.name " +
+            "FROM users left join roles on users.role_id = roles.id " +
+            "WHERE removed = 0 " +
+            "ORDER BY users.lastname, users.firstname ";
+
+    @Override
+    public List<User> getUsers(int pageNumber, int pageCount) throws DaoException {
+        List<User> users = new ArrayList<>();
+
+        ConnectionPool connectionPool = ConnectionPool.getInstance();
+
+        try (Connection connection = connectionPool.takeConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(SQL_users + MySqlDao.formatLimit(pageNumber, pageCount))) {
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    while (resultSet.next()) {
+                        users.add(
+                                new UserBean(
+                                        resultSet.getInt(1),
+                                        resultSet.getString(7),
+                                        "",
+                                        resultSet.getString(8),
+                                        resultSet.getString(2),
+                                        resultSet.getString(3),
+                                        resultSet.getTimestamp(5),
+                                        resultSet.getTimestamp(6),
+                                        null,
+                                        UserType.valueOf(resultSet.getString(9).toUpperCase())
+                                )
+                        );
+                    }
+                }
+            }
+        } catch (SQLException | ConnectionPoolException e) {
+            throw new DaoException(e);
+        }
+
+        return users;
     }
 
     private static final String SQL_registration_check = "SELECT id FROM users WHERE login = ?";

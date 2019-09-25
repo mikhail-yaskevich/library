@@ -72,9 +72,9 @@ public class ConnectionPool {
                         new ConnectionDecorator(DriverManager.getConnection(url, user, password)));
             }
         } catch (SQLException e) {
-            throw new ConnectionPoolException("SQLException in ConnectionPool.", e);
+            throw new ConnectionPoolException(e);
         } catch (ClassNotFoundException e) {
-            throw new ConnectionPoolException("Can't find database driver class.", e);
+            throw new ConnectionPoolException(e);
         }
     }
 
