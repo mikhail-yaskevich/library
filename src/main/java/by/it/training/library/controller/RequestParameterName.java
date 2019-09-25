@@ -11,6 +11,10 @@ public final class RequestParameterName {
     public static final String LAST_REQUEST = "lastRequest";
     public static final String PAGE = "page";
 
+    public static final String BOOKS = "books";
+    public static final String LOGIN_PAGE = "loginPage";
+    public static final String REGISTRATION_PAGE = "registrationPage";
+
     private RequestParameterName() {
     }
 }

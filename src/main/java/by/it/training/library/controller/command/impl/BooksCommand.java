@@ -19,7 +19,12 @@ import java.util.Set;
 public class BooksCommand extends BaseCommand {
 
     @Override
-    public void doExecute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
+    public Set<UserType> getAvailableUserType() {
+        return EnumSet.of(UserType.GUEST, UserType.READER, UserType.ADMIN);
+    }
+
+    @Override
+    public void doDefault(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         if ("GET".equals(request.getMethod())) {
             request.setAttribute(RequestParameterName.LAST_REQUEST, "/main?command=books");
             request.setAttribute(RequestParameterName.PAGE, "/WEB-INF/jsp/common/books.jsp");
@@ -58,7 +63,8 @@ public class BooksCommand extends BaseCommand {
         }
     }
 
-    public Set<UserType> getAvailableUserType() {
-        return EnumSet.of(UserType.GUEST, UserType.READER, UserType.ADMIN);
+    @Override
+    public void doExecute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
+        doDefault(request, response);
     }
 }

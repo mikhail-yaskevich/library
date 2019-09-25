@@ -47,8 +47,7 @@ public class Controller extends HttpServlet {
 
     private void doCommand(HttpServletRequest req, HttpServletResponse resp) {
         logger.trace(req.getMethod());
-        String commandName = req.getParameter(RequestParameterName.COMMAND_NAME);
-        logger.trace("command: " + commandName);
+        logger.trace("command: " + req.getParameter(RequestParameterName.COMMAND_NAME));
 
         req.setAttribute("locale", req.getLocale().toString());
         Cookie[] cookies = req.getCookies();
@@ -84,18 +83,10 @@ public class Controller extends HttpServlet {
             }
         }
 
-        Command command;
-        HttpSession session = req.getSession(false);
-        if (Objects.isNull(session) || Objects.isNull(session.getAttribute(SessionAttributeName.USER))) {
-            command = getCommandWithoutSession(commandName);
-        } else {
-            command = commandProvider.getCommand(commandName);
-        }
-
         try {
-            command.execute(req, resp);
-        } catch (CommandException e) {
-            logger.error("controller", e);
+            commandProvider.getCommand(req.getParameter(RequestParameterName.COMMAND_NAME)).execute(req, resp);
+        } catch (Exception e) {
+            logger.error("controller: ", e);
         }
     }
 

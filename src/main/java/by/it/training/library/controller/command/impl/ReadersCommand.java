@@ -4,8 +4,8 @@ import by.it.training.library.bean.User;
 import by.it.training.library.bean.UserType;
 import by.it.training.library.controller.PageConstant;
 import by.it.training.library.controller.RequestParameterName;
+import by.it.training.library.controller.command.BaseCommand;
 import by.it.training.library.controller.command.CommandException;
-import by.it.training.library.controller.command.SecureCommand;
 import by.it.training.library.service.ServiceException;
 import by.it.training.library.service.ServiceProvider;
 import by.it.training.library.service.UserService;
@@ -16,7 +16,8 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
 
-public class ReadersCommand extends SecureCommand {
+public class ReadersCommand extends BaseCommand {
+
     @Override
     public Set<UserType> getAvailableUserType() {
         return EnumSet.of(UserType.ADMIN);

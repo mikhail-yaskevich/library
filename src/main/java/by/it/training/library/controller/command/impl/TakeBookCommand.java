@@ -4,10 +4,9 @@ import by.it.training.library.bean.Subscription;
 import by.it.training.library.bean.User;
 import by.it.training.library.bean.UserType;
 import by.it.training.library.bean.impl.SubscriptionBean;
-import by.it.training.library.controller.RequestParameterName;
 import by.it.training.library.controller.SessionAttributeName;
+import by.it.training.library.controller.command.BaseCommand;
 import by.it.training.library.controller.command.CommandException;
-import by.it.training.library.controller.command.SecureCommand;
 import by.it.training.library.service.ServiceException;
 import by.it.training.library.service.ServiceProvider;
 import by.it.training.library.service.SubscriptionService;
@@ -22,7 +21,7 @@ import java.util.EnumSet;
 import java.util.Objects;
 import java.util.Set;
 
-public class TakeBookCommand extends SecureCommand {
+public class TakeBookCommand extends BaseCommand {
 
     @Override
     public Set<UserType> getAvailableUserType() {
@@ -57,7 +56,7 @@ public class TakeBookCommand extends SecureCommand {
     }
 
     @Override
-    public void doAfterExecute (HttpServletRequest request, HttpServletResponse response) throws CommandException {
+    public void doGo(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         try {
             String parameter = request.getParameter("page");
             if (Objects.nonNull(parameter)) {

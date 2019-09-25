@@ -1,6 +1,7 @@
 package by.it.training.library.controller.command.impl;
 
 import by.it.training.library.bean.Author;
+import by.it.training.library.bean.UserType;
 import by.it.training.library.controller.PageConstant;
 import by.it.training.library.controller.RequestParameterName;
 import by.it.training.library.controller.command.BaseCommand;
@@ -11,11 +12,19 @@ import by.it.training.library.service.ServiceProvider;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.EnumSet;
 import java.util.List;
+import java.util.Set;
 
 public class AuthorsCommand extends BaseCommand {
+
     @Override
-    public void doExecute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
+    public Set<UserType> getAvailableUserType() {
+        return EnumSet.of(UserType.GUEST, UserType.READER, UserType.ADMIN);
+    }
+
+    @Override
+    public void doDefault(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         if ("GET".equals(request.getMethod())) {
             request.setAttribute(RequestParameterName.LAST_REQUEST, "/main?command=authors");
             request.setAttribute(RequestParameterName.PAGE, "/WEB-INF/jsp/common/authors.jsp");
@@ -52,5 +61,10 @@ public class AuthorsCommand extends BaseCommand {
             request.setAttribute("pageCommand", "authors");
             request.setAttribute(RequestParameterName.LAST_REQUEST, "/main?command=authors&page=" + (pageNumber + 1));
         }
+    }
+
+    @Override
+    public void doExecute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
+        doDefault(request, response);
     }
 }

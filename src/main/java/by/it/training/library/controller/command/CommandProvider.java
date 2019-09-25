@@ -16,23 +16,24 @@ public final class CommandProvider {
     private Map<CommandName, Command> commands = new EnumMap<>(CommandName.class);
 
     private CommandProvider() {
-        commands.put(CommandName.NO_SUCH_COMMAND, new NoSuchCommand());
-        commands.put(CommandName.REGISTRATION, new RegistrationCommand());
+        GeneralCommand command = new GeneralCommand();
+        commands.put(CommandName.NO_SUCH_COMMAND, command);
+        commands.put(CommandName.GENERAL, command);
         commands.put(CommandName.LOGIN, new LoginCommand());
-        commands.put(CommandName.GENERAL, new GeneralCommand());
+        commands.put(CommandName.REGISTRATION, new RegistrationCommand());
+        commands.put(CommandName.LOGOUT, new LogoutCommand());
+        commands.put(CommandName.LOCALE, new LocaleCommand());
         commands.put(CommandName.BOOKS, new BooksCommand());
         commands.put(CommandName.AUTHORS, new AuthorsCommand());
         commands.put(CommandName.ABOUT, new AboutCommand());
-        commands.put(CommandName.LOGOUT, new LogoutCommand());
-        commands.put(CommandName.LOCALE, new LocaleCommand());
         commands.put(CommandName.SUBSCRIPTIONS, new SubscriptionsCommand());
+        commands.put(CommandName.READERS, new ReadersCommand());
+        commands.put(CommandName.BOOK, new BookCommand());
+        commands.put(CommandName.AUTHOR, new AuthorCommand());
+        commands.put(CommandName.RESERVE, new ReserveBookCommand());
         commands.put(CommandName.TAKE, new TakeBookCommand());
         commands.put(CommandName.BRING, new BringBookCommand());
         commands.put(CommandName.CANCEL, new CancelReservedBookCommand());
-        commands.put(CommandName.BOOK, new BookCommand());
-        commands.put(CommandName.RESERVE, new ReserveBookCommand());
-        commands.put(CommandName.AUTHOR, new AuthorCommand());
-        commands.put(CommandName.READERS, new ReadersCommand());
     }
 
     public Command getCommand(String commandName) {

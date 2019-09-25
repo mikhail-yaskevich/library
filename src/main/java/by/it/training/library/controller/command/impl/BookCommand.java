@@ -1,6 +1,5 @@
 package by.it.training.library.controller.command.impl;
 
-import by.it.training.library.bean.Subscription;
 import by.it.training.library.bean.User;
 import by.it.training.library.bean.UserType;
 import by.it.training.library.controller.RequestParameterName;
@@ -15,11 +14,18 @@ import by.it.training.library.service.SubscriptionService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.Objects;
+import java.util.EnumSet;
+import java.util.Set;
 
 public class BookCommand extends BaseCommand {
+
     @Override
-    public void doExecute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
+    public Set<UserType> getAvailableUserType() {
+        return EnumSet.of(UserType.GUEST, UserType.READER, UserType.ADMIN);
+    }
+
+    @Override
+    public void doDefault(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         if ("GET".equals(request.getMethod())) {
             request.setAttribute(RequestParameterName.LAST_REQUEST, "/main?command=book&book=");
             request.setAttribute(RequestParameterName.PAGE, "/WEB-INF/jsp/guest/book.jsp");
@@ -33,13 +39,22 @@ public class BookCommand extends BaseCommand {
                 throw new CommandException(e);
             }
 
+            request.setAttribute(RequestParameterName.LAST_REQUEST, "/main?command=book&book=" + bookId);
+        }
+    }
+
+    @Override
+    public void doExecute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
+        doDefault(request, response);
+
+        if ("GET".equals(request.getMethod())) {
             HttpSession session = request.getSession(false);
-            if (Objects.nonNull(session) &&
-                    Objects.nonNull(session.getAttribute(SessionAttributeName.USER)) &&
-                    Objects.nonNull(session.getAttribute(SessionAttributeName.USER_TYPE))) {
-                String attribute = ((String) session.getAttribute(SessionAttributeName.USER_TYPE)).toUpperCase();
-                if (UserType.READER.name().equals(attribute)) {
-                    User user = (User) session.getAttribute(SessionAttributeName.USER);
+            User user = (User) session.getAttribute(SessionAttributeName.USER);
+            UserType userType = UserType.valueOf((String) session.getAttribute(SessionAttributeName.USER_TYPE));
+
+            switch (userType) {
+                case READER: {
+                    int bookId = Integer.parseInt(request.getParameter("book"));
 
                     SubscriptionService subscriptionService = ServiceProvider.getInstance().getSubscriptionService();
 
@@ -48,10 +63,9 @@ public class BookCommand extends BaseCommand {
                     } catch (ServiceException e) {
                         throw new CommandException(e);
                     }
+                    break;
                 }
             }
-
-            request.setAttribute(RequestParameterName.LAST_REQUEST, "/main?command=book&book=" + bookId);
         }
     }
 }
