@@ -66,6 +66,24 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public int getFindBooksCount(String searchText) throws ServiceException {
+        try {
+            return bookDao.getFindBooksCount(searchText);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public List<Book> getFindBooks(String searchText, int pageNumber, int pageCount) throws ServiceException {
+        try {
+            return bookDao.getFindBooks(searchText, pageNumber, pageCount);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
     public List<Book> getNewAddedBooks() throws ServiceException {
         try {
             return setLinksToAuthors(bookDao.getNewAddedBooks());

@@ -114,6 +114,44 @@ public class MySqlBookDao implements BookDao {
         return books;
     }
 
+    private static final String SQL_find_books_count =
+            "SELECT count(books.id) FROM books where ";
+
+    @Override
+    public int getFindBooksCount(String searchText) throws DaoException {
+        String[] words = searchText.split(" ");
+        if (words.length == 0) {
+            return 0;
+        }
+        String sql = SQL_find_books_count + String.format("books.title LIKE '%%%s%%'", words[0]);
+        for (int i = 1; i < words.length; i++) {
+            sql += String.format(" OR books.title LIKE '%%%s%%'", words[i]);
+        }
+
+        return MySqlDao.getCount(sql);
+    }
+
+    private static final String SQL_find_books =
+            "SELECT books.id, books.title, " +
+                    "(SELECT GROUP_CONCAT(books_authors.author_id) FROM books_authors WHERE books_authors.book_id = books.id) authorsid " +
+                    "FROM books %s " +
+                    "ORDER BY books.title ASC";
+
+    @Override
+    public List<Book> getFindBooks(String searchText, int pageNumber, int pageCount) throws DaoException {
+        String[] words = searchText.split(" ");
+        if (words.length == 0) {
+            return new ArrayList<>();
+        }
+        String sql = String.format("books.title LIKE '%%%s%%'", words[0]);
+        for (int i = 1; i < words.length; i++) {
+            sql += String.format(" OR books.title LIKE '%%%s%%'", words[i]);
+        }
+        sql = String.format(SQL_find_books, sql);
+
+        return getBooksFrom(sql + MySqlDao.formatLimit(pageNumber, pageCount));
+    }
+
     private List<Book> getBooksFrom(String sql) throws DaoException {
         List<Book> books = new ArrayList<>();
 
@@ -134,8 +172,6 @@ public class MySqlBookDao implements BookDao {
 
         return books;
     }
-
-    private static final String SQL_find_books = "";
 
     public List<Book> findBooks(String[] words) throws DaoException {
         return null;

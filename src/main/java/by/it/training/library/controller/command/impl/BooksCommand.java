@@ -4,6 +4,7 @@ import by.it.training.library.bean.Book;
 import by.it.training.library.bean.UserType;
 import by.it.training.library.controller.PageConstant;
 import by.it.training.library.controller.RequestParameterName;
+import by.it.training.library.controller.SessionAttributeName;
 import by.it.training.library.controller.command.BaseCommand;
 import by.it.training.library.controller.command.CommandException;
 import by.it.training.library.service.BookService;
@@ -12,8 +13,10 @@ import by.it.training.library.service.ServiceProvider;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 public class BooksCommand extends BaseCommand {
@@ -28,6 +31,23 @@ public class BooksCommand extends BaseCommand {
         if ("GET".equals(request.getMethod())) {
             request.setAttribute(RequestParameterName.LAST_REQUEST, "/main?command=books");
             request.setAttribute(RequestParameterName.PAGE, "/WEB-INF/jsp/common/books.jsp");
+
+            HttpSession session = request.getSession(false);
+            if (Objects.nonNull(session) &&
+                    Objects.nonNull(session.getAttribute(SessionAttributeName.USER)) &&
+                    Objects.nonNull(session.getAttribute(SessionAttributeName.USER_TYPE))) {
+                UserType userType = UserType.valueOf((String) session.getAttribute(SessionAttributeName.USER_TYPE));
+                switch (userType) {
+                    case READER: {
+                        request.setAttribute(RequestParameterName.PAGE_MENU, "/WEB-INF/jsp/reader/pageMenu.jsp");
+                        break;
+                    }
+                    case ADMIN: {
+                        request.setAttribute(RequestParameterName.PAGE_MENU, "/WEB-INF/jsp/admin/pageMenu.jsp");
+                        break;
+                    }
+                }
+            }
 
             BookService bookService = ServiceProvider.getInstance().getBookService();
 

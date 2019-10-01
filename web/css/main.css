@@ -6,7 +6,7 @@
     cursor: pointer;
 }
 
-.without-underline{
+.without-underline {
     text-decoration: none;
     color: black;
 }
@@ -26,6 +26,18 @@
 
 td.right {
     text-align: right;
+}
+
+input[type=password] {
+    width: 150px;
+}
+
+#search {
+    width: 250px;
+}
+
+input[type=text] {
+    width: 150px;
 }
 
 td.center {
@@ -73,7 +85,7 @@ div {
 }
 
 .book-header1 {
-border: 0 dashed black;
+    border: 0 dashed black;
     font-style: normal;
     font-size: large;
     font-weight: bold;
@@ -91,7 +103,7 @@ border: 0 dashed black;
 }
 
 .book-header2 {
-border: 0 dashed black;
+    border: 0 dashed black;
     font-style: normal;
     font-size: medium;
     font-weight: bold;
@@ -109,7 +121,7 @@ border: 0 dashed black;
 }
 
 .book-header3 {
-border: 0 dashed black;
+    border: 0 dashed black;
     font-style: normal;
     font-size: medium;
     font-weight: bold;
@@ -190,6 +202,7 @@ border: 0 dashed black;
     font-size: medium;
     float: top;
 }
+
 .book-authors {
     border: 0 dashed black;
     float: top;
@@ -229,7 +242,7 @@ border: 0 dashed black;
 }
 
 .book-author3 {
-//border: 0 dashed black;
+/ / border: 0 dashed black;
     font-size: medium;
     float: top;
     padding-left: 20px;
@@ -278,7 +291,7 @@ border: 0 dashed black;
 
 .header {
     height: 80px;
-    //border: 0 px dashed black;
+/ / border: 0 px dashed black;
     border-bottom-style: none;
     background: azure;
     text-align: center;
@@ -287,14 +300,14 @@ border: 0 dashed black;
 
 .middle {
     height: 100%;
-    //border: 0 px dashed black;
+/ / border: 0 px dashed black;
     background: white;
     float: top;
 }
 
 .footer {
     height: 80px;
-    //border: 0 px dashed black;
+/ / border: 0 px dashed black;
     background: white;
     float: bottom;
     display: none;
@@ -303,64 +316,64 @@ border: 0 dashed black;
 .header-logo {
     width: 80px;
     height: 80px;
-    //display: none;
+/ / display: none;
     float: left;
 }
 
 .book-img {
     width: 128px;
     height: 128px;
-    //padding: 10px;
+/ / padding: 10 px;
     padding: 10px 20px 30px 25px;
-//display: none;
-    //float: top;
+/ / display: none;
+/ / float: top;
 }
 
 .author-img {
     width: 128px;
     height: 128px;
-//padding: 10px;
+/ / padding: 10 px;
     padding: 10px 20px 30px 25px;
-//display: none;
-//float: top;
+/ / display: none;
+/ / float: top;
 }
 
 .book-img2 {
     border: 0 dashed black;
     width: 170px;
-    //height: 276px;
+/ / height: 276 px;
     padding: 5px;
-//display: none;
+/ / display: none;
     float: left;
 }
 
 .author-img2 {
     border: 0 dashed black;
     width: 170px;
-//height: 276px;
+/ / height: 276 px;
     padding: 5px;
-//display: none;
+/ / display: none;
     float: left;
 }
 
 .book-data {
     border: 0 dashed black;
     padding: 10px;
-//display: none;
+/ / display: none;
     float: left;
 }
 
 .author-data {
     border: 0 dashed black;
     padding: 10px;
-//display: none;
+/ / display: none;
     float: left;
 }
 
 .book-command {
-    //padding: 10px;
-//display: none;
-    //float: top;
+/ / padding: 10 px;
+/ / display: none;
+/ / float: top;
 }
 
 .header-user {
@@ -380,8 +393,30 @@ border: 0 dashed black;
     top: -20px;
 }
 
+.header-search {
+    border: 0 dashed black;
+    //margin-top: 0;
+    height: 20px;
+    position: relative;
+    float: right;
+    //top: -20px;
+    //right: -5px;
+    left: 37px;
+}
+
+.header-submenu{
+    border: 0 dashed black;
+//margin-top: 0;
+    //width: auto;
+    //height: auto;
+//position: relative;
+    float: left;
+//top: -20px;
+//right: 5px;
+}
+
 .subscription-command {
-    //padding-left: 10px;
+/ / padding-left: 10 px;
     border: 0 dashed black;
     height: 20px;
     float: left;
@@ -420,7 +455,7 @@ border: 0 dashed black;
     float: top;
     text-align: left;
     padding: 5px;
-    height: auto;
+    height: 23px;
 / / display: none;
 }
 

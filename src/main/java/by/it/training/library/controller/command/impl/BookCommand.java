@@ -65,6 +65,9 @@ public class BookCommand extends BaseCommand {
                     }
                     break;
                 }
+                case ADMIN: {
+                    break;
+                }
             }
         }
     }

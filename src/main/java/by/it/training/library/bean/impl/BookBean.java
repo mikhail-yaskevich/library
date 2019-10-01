@@ -3,6 +3,7 @@ package by.it.training.library.bean.impl;
 import by.it.training.library.bean.Author;
 import by.it.training.library.bean.Book;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

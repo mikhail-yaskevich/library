@@ -34,6 +34,8 @@ public final class CommandProvider {
         commands.put(CommandName.TAKE, new TakeBookCommand());
         commands.put(CommandName.BRING, new BringBookCommand());
         commands.put(CommandName.CANCEL, new CancelReservedBookCommand());
+
+        commands.put(CommandName.UPLOAD, new UploadCommand());
     }
 
     public Command getCommand(String commandName) {

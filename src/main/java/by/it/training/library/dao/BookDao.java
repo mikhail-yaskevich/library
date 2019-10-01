@@ -18,4 +18,7 @@ public interface BookDao {
     List<Book> getBooks(int pageNumber, int pageCount) throws DaoException;
     Map<Integer, Book> getBooks(List<Integer> booksId) throws DaoException;
     List<Book> getBooks(int authorId) throws DaoException;
+
+    int getFindBooksCount(String searchText) throws DaoException;
+    List<Book> getFindBooks(String searchText, int pageNumber, int pageCount) throws DaoException;
 }
